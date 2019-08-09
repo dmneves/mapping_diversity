@@ -1,0 +1,63 @@
+#set working directory
+setwd(choose.dir())
+
+#install required packages
+install.packages('ape')
+install.packages('geiger')
+install.packages('ncbit')
+install.packages('phytools')
+install.packages('taxize')
+install.packages('traits')
+
+#load packages
+library(ape)
+library(geiger)
+library(ncbit)
+library(phytools)
+library(taxize)
+library(traits)
+
+
+#read in species list
+spp.raw <- read.csv(file.choose(), header = T, sep = ',')
+
+#search genbank for matK;
+matK.tmp <- lapply(1:nrow(spp.raw), function(x){
+	y <- ncbi_byname(spp.raw$Genus.species[x], gene = 'matK', seqrange = '1:1500')
+	Sys.sleep(0.5)
+	y
+})
+
+
+#unlist
+matK <- do.call(rbind, matK.tmp)
+
+#insert family names
+matK <- cbind(matK, spp.raw$Family)
+
+#delete taxa with short sequences (issues with annotation?)
+matK <- matK[-which(matK$length  < 700), ]
+
+#removing spaces in taxon names
+tmp <- gsub(' ', '_', matK$taxon)
+matK$taxon <- tmp
+
+
+#getting rid of NA's (no sequences on GenBank)
+matK <- matK[which(matK$gi_no!='NA'),]
+
+#now let's export those sequences in fasta format
+matK_fasta <- vector("character")
+tmp <- seq(1,2*nrow(matK), 2)
+for (i in 1:nrow(matK)){
+	matK_fasta[tmp[i]] <- paste(">", paste(matK$Family, matK$taxon[i],
+	matK$gi_no[i], sep = "_"), sep = "")
+	matK_fasta[tmp[i]+1] <- as.character(matK$sequence[i])
+}
+
+
+#importing the fasta files in order to export them in phylip format for
+#maximum likelihood phylogenetic analysis
+matK_run1 <- read.dna("matK_mod",format="fasta")
+write.dna(matK_run1,"matK.phy",format="sequential",nbcol=-1,colsep="")
+
