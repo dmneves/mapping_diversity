@@ -17,8 +17,15 @@ library(phytools)
 library(taxize)
 library(traits)
 
-
 #read in species list
+spp.tmp <- read.csv(file.choose(), header = T, sep = ',')
+
+#using function in {taxize} to get taxonomy for each taxon from ncbi
+spp <- read.table(file.choose(), header = F)
+taxonomy_spp <- plantminer(spp.tmp$Genus.species)
+write.table(taxonomy_spp, 'taxonomy_spp.csv')#parse matrix outside R (much easier)
+
+#read in modified species list
 spp.raw <- read.csv(file.choose(), header = T, sep = ',')
 
 #search genbank for matK;
@@ -41,7 +48,6 @@ matK <- matK[-which(matK$length  < 700), ]
 #removing spaces in taxon names
 tmp <- gsub(' ', '_', matK$taxon)
 matK$taxon <- tmp
-
 
 #getting rid of NA's (no sequences on GenBank)
 matK <- matK[which(matK$gi_no!='NA'),]
