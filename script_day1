@@ -21,7 +21,6 @@ library(traits)
 spp.tmp <- read.csv(file.choose(), header = T, sep = ',')
 
 #using function in {taxize} to get taxonomy for each taxon from ncbi
-spp <- read.table(file.choose(), header = F)
 taxonomy_spp <- plantminer(spp.tmp$Genus.species)
 write.table(taxonomy_spp, 'taxonomy_spp.csv')#parse matrix outside R (much easier)
 
