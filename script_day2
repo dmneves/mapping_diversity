@@ -1,0 +1,32 @@
+#load packages
+require(picante)
+require(phytools)
+
+#load phylogeny
+tree <- read.tree('tree')
+
+#load traits matrix
+traits <- read.csv(file.choose(), header = T, row.names = 1, sep = ',')
+
+#match traits matrix with phylogeny
+traits <- match.phylo.data(tree, traits)$data
+
+##AF ~ RI controlling fr the phylogenetic component (PGLS)
+#AF = Abundance in seasonally Flooded sites
+#RI = Resprouting Index
+#PGLS = phylogenetic generalized least squares
+
+m1 <- gls(AF ~ RI, correlation = corBrownian(phy = tree),
+    data = traits, method = "ML")
+
+m0 <- update(m1, .~ 1) #null model
+
+anova(m0, m1)
+
+##compute phylogenetic signal
+RI <- traits$RI
+names(RI) <- rownames(traits)
+
+#estimar sinal filogentico com filogenia original
+RI.sig <- phylosig(tree, RI, test = T)
+
