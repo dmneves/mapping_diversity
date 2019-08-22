@@ -1,4 +1,6 @@
 #load packages
+require(diversitree)
+require(geiger)
 require(picante)
 require(phytools)
 
@@ -27,6 +29,12 @@ anova(m0, m1)
 RI <- traits$RI
 names(RI) <- rownames(traits)
 
-#estimar sinal filogentico com filogenia original
 RI.sig <- phylosig(tree, RI, test = T)
+
+#plot trait across phylogeny
+obj <- contMap(tree, RI, plot = F)
+
+tiff('RI_phylogeny.tiff', height = 15, width = 15, unit = 'cm', res = 600)
+plot(obj, 'f')
+dev.off()
 
