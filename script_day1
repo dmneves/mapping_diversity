@@ -55,11 +55,12 @@ matK <- matK[which(matK$gi_no!='NA'),]
 matK_fasta <- vector("character")
 tmp <- seq(1,2*nrow(matK), 2)
 for (i in 1:nrow(matK)){
-	matK_fasta[tmp[i]] <- paste(">", paste(matK$Family, matK$taxon[i],
+	matK_fasta[tmp[i]] <- paste(">", paste(matK$Family[i], matK$taxon[i],
 	matK$gi_no[i], sep = "_"), sep = "")
 	matK_fasta[tmp[i]+1] <- as.character(matK$sequence[i])
 }
 
+write.table(matK_fasta, "matK1.fas", col.names = F, row.names = F, quote = F)
 
 #importing the fasta files in order to export them in phylip format for
 #maximum likelihood phylogenetic analysis
