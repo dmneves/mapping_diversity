@@ -38,8 +38,9 @@ matK.tmp <- lapply(1:nrow(spp.raw), function(x){
 #unlist
 matK <- do.call(rbind, matK.tmp)
 
-#insert family names
+#insert family column and fix íts name
 matK <- cbind(matK, spp.raw$Family)
+colnames(matK)[8] <- 'Family'
 
 #delete taxa with short sequences (issues with annotation?)
 matK <- matK[-which(matK$length  < 700), ]
