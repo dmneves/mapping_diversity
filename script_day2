@@ -42,7 +42,7 @@ obj <- contMap(tree, RI, plot = F)
 
 tiff('RI_phylogeny.tiff', height = 15, width = 15, unit = 'cm', res = 600)
 
-plot(obj, type = 'fan', fsize = 0.1, lwd = 1)
+plot(obj, type = 'fan', fsize = 0.4, lwd = 2)
 
 dev.off()
 
