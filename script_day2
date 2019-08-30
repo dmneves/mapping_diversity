@@ -10,7 +10,7 @@ tree <- read.tree('phylo.tre')
 is.rooted(tree)
 is.ultrametric(tree)
 
-#make tree ultrametric
+#make tree ultrametric (for a more statistically sound approach, check function chronons in package)
 tree <- force.ultrametric(tree)
 
 #load traits matrix
