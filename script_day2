@@ -41,6 +41,8 @@ phylosig(tree, RI, test = T)
 obj <- contMap(tree, RI, plot = F)
 
 tiff('RI_phylogeny.tiff', height = 15, width = 15, unit = 'cm', res = 600)
-plot(obj, 'f')
+
+plot(obj, type = 'fan', fsize = 0.1, lwd = 1)
+
 dev.off()
 
