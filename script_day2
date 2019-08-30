@@ -5,7 +5,7 @@ require(picante)
 require(phytools)
 
 #load phylogeny
-tree <- read.tree('tree')
+tree <- read.tree('phylo.tre')
 
 #load traits matrix
 traits <- read.csv(file.choose(), header = T, row.names = 1, sep = ',')
