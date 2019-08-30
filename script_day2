@@ -4,8 +4,14 @@ require(geiger)
 require(picante)
 require(phytools)
 
-#load phylogeny
+#load phylogeny and check assumptions
 tree <- read.tree('phylo.tre')
+
+is.rooted(tree)
+is.ultrametric(tree)
+
+#make tree ultrametric
+tree <- force.ultrametric(tree)
 
 #load traits matrix
 traits <- read.csv(file.choose(), header = T, row.names = 1, sep = ',')
