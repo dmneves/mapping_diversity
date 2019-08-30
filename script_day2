@@ -35,7 +35,7 @@ anova(m0, m1)
 RI <- traits$RI
 names(RI) <- rownames(traits)
 
-RI.sig <- phylosig(tree, RI, test = T)
+phylosig(tree, RI, test = T)
 
 #plot trait across phylogeny
 obj <- contMap(tree, RI, plot = F)
