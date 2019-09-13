@@ -19,7 +19,7 @@ traits <- read.csv(file.choose(), header = T, row.names = 1, sep = ',')
 #match traits matrix with phylogeny
 traits <- match.phylo.data(tree, traits)$data
 
-##AF ~ RI controlling fr the phylogenetic component (PGLS)
+##AF ~ RI controlling for the phylogenetic component (PGLS)
 #AF = Abundance in seasonally Flooded sites
 #RI = Resprouting Index
 #PGLS = phylogenetic generalized least squares
